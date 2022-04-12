@@ -9,6 +9,10 @@ class ProfileForm extends Form
 {
     public function buildForm()
     {
+        /*
+This is a form for the users of this appointment
+        application.
+*/
         $user = $this->getData('user');
 
         $this->add('name', Field::TEXT,[

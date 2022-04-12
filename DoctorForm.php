@@ -9,6 +9,10 @@ class DoctorForm extends Form
 {
     public function buildForm()
     {
+        /*
+This is a form for the Doctors of this appointment
+        application.
+*/
         $user = $this->getData('user');
 
         if(isset($user)){
