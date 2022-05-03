@@ -1,0 +1,45 @@
+<?php
+
+namespace App\Forms;
+
+use Carbon\Carbon;
+use Kris\LaravelFormBuilder\Form;
+
+class ScheduleForm extends Form
+{
+    public function buildForm()
+    {
+        $schedule = $this->getData('schedule');
+
+        $dt = Carbon::now();
+
+        if(isset($schedule)){
+            $dt = Carbon::parse($schedule->schedule_date);
+            $this->add('schedule_id','hidden',[
+                'value' => $schedule->id
+            ]);
+        }
+
+        $this->add('schedule_date','date',[
+            'rules' => 'required',
+            'attr' => ['min' => $dt->toDateString()],
+            'value' => @$schedule->schedule_date
+        ])->add('start_time','time',[
+            'rules' => 'required',
+            'value' => @$schedule->start_time
+        ])->add('end_time','time',[
+            'rules' => 'required',
+            'value' => @$schedule->end_time
+        ])->add('duration','select',[
+            'rules' => 'required',
+            'choices' => ['5' => '5 Min', '10' => '10 Min', '15' => '15 Min',
+                '20' => '20 Min', '25' => '25 Min','30' => '30 Min'],
+            'selected' => isset($schedule)?$schedule->duration:'5',
+            'empty_value' => '=== Select Duration ==='
+        ])->add('submit', 'submit', [
+            'label' => isset($schedule)?'Update':'Create',
+            'attr' => ['class' => 'btn btn-danger'],
+        ]);
+    }
+}
+
